@@ -14,7 +14,7 @@ app.listen(HTTP_PORT, () => {
 
 //GET
 //Listeleme
-app.get("/api/users", (req, res, next) => {
+app.get("/api/users", (req, res,) => {
     var sql = "select * from user"
     var params = []
     db.all(sql, params, (err, rows) => {
@@ -31,7 +31,7 @@ app.get("/api/users", (req, res, next) => {
 
 //GET
 //id'ye göre listeleme
-app.get("/api/user/:id", (req, res, next) => {
+app.get("/api/user/:id", (req, res) => {
     var sql = "select * from user where id = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
@@ -48,7 +48,7 @@ app.get("/api/user/:id", (req, res, next) => {
 
 //POST
 //Create işlemi
-app.post("/api/user/", (req, res, next) => {
+app.post("/api/user/", (req, res) => {
     var errors=[]
     if (!req.body.password){
         errors.push("No password specified");
@@ -67,7 +67,7 @@ app.post("/api/user/", (req, res, next) => {
     }
     var sql ='INSERT INTO user (name, email, password) VALUES (?,?,?)'
     var params =[data.name, data.email, data.password]
-    db.run(sql, params, function (err, result) {
+    db.run(sql, params, function (err) {
         if (err){
             res.status(400).json({"error": err.message})
             return;
@@ -82,7 +82,7 @@ app.post("/api/user/", (req, res, next) => {
 
 //PATCH
 //Update işlemi
-app.patch("/api/user/:id", (req, res, next) => {
+app.patch("/api/user/:id", (req, res) => {
     var data = {
         name: req.body.name,
         email: req.body.email,
@@ -110,7 +110,7 @@ app.patch("/api/user/:id", (req, res, next) => {
 
 //DELETE
 //Silme işlemi
-app.delete("/api/user/:id", (req, res, next) => {
+app.delete("/api/user/:id", (req, res) => {
     db.run(
         'DELETE FROM user WHERE id = ?',
         req.params.id,
